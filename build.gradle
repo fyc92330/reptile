@@ -1,0 +1,58 @@
+plugins {
+    id 'org.springframework.boot' version '2.1.18.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id 'java'
+}
+
+group = 'org.chun'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+compileJava.options.encoding = 'UTF-8'
+compileTestJava.options.encoding = 'UTF-8'
+
+repositories {
+    mavenLocal()
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    // spring
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation(group: 'org.springframework.boot', name: 'spring-boot-starter-web') {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-tomcat'
+    }
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    // undertow
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-undertow'
+    implementation group: 'io.undertow', name: 'undertow-core', version: '2.0.19.Final'
+    implementation group: 'io.undertow', name: 'undertow-servlet', version: '2.0.19.Final'
+
+    // jsoup
+    implementation group: 'org.jsoup', name: 'jsoup', version: '1.14.3'
+    // fastCSV
+    implementation group: 'de.siegmar', name: 'fastcsv', version: '2.1.0'
+    // openCsv
+    implementation group: 'com.opencsv', name: 'opencsv', version: '5.6'
+    // httpClient
+    implementation group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
+    // lineBot-springboot
+    implementation group: 'com.linecorp.bot', name: 'line-bot-spring-boot', version: '4.7.0'
+
+    // lombok
+    compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+    annotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+    testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+    testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.20'
+    // test
+    testImplementation group: 'org.springframework.boot', name: 'spring-boot-starter-test'
+    testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter', version: '5.5.1'
+}
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
+
+test {
+    useJUnitPlatform()
+}
